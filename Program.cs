@@ -76,21 +76,20 @@ static async Task PrintPdfToIpp(string printerIp, string pdfFile, string colorMo
             new()
             {
                 PrinterUri = new Uri($"ipp://{printerIp}/ipp/print"),
-                Document = fileStream,
-                RequestingUserName = Environment.UserName,
+                Document = fileStream,        
                 NewJobAttributes = new NewJobAttributes
                 {
                     JobName = Path.GetFileName(pdfFile),
                     AdditionalJobAttributes = new List<IppAttribute>
                     {
-                        new(Tag.Keyword, "print-color-mode", colorMode)
+                        new(Tag.Keyword, "print-color-mode", colorMode),
+                        new (Tag.NameWithoutLanguage, "requesting-user-name", Environment.UserName),
                     }
                 },
                 DocumentAttributes = new DocumentAttributes
                 {
                     DocumentFormat = "application/pdf",
                     DocumentName = Path.GetFileName(pdfFile),
-                    DocumentNaturalLanguage = "no"
                 }
             };
 
